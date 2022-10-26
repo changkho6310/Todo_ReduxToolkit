@@ -43,11 +43,17 @@ export const todosSlice = createSlice({
     },
 
     toggleTodoStatus: (state, action) => {
-      state.forEach((todo) => {
-        if (todo.id === action.payload) {
-          todo.completed = !todo.completed;
-        }
-      });
+      // C1:
+      const newTodo = state.find((todo) => todo.id === action.payload);
+      newTodo.completed = !newTodo.completed;
+
+      // C2:
+      // state.forEach((todo) => {
+      //   if (todo.id === action.payload) {
+      //     todo.completed = !todo.completed;
+      //     return
+      //   }
+      // });
     },
   },
 });

@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
+import { createSlice } from "@reduxjs/toolkit";
+
 const initState = [
   {
     id: uuidv4(),
@@ -32,24 +34,20 @@ const initState = [
   },
 ];
 
-const todoListReducer = (state = initState, action) => {
-  switch (action.type) {
-    case "todoList/addTodo": {
-      return [...state, action.payload];
-    }
+export const todosSlice = createSlice({
+  initialState: initState,
+  name: "todoList",
+  reducers: {
+    addTodo: (state, action) => {
+      state.push(action.payload);
+    },
 
-    case "todoList/toggleTodoStatus": {
-      return state.map((todo) => {
-        return todo.id === action.payload
-          ? { ...todo, completed: !todo.completed }
-          : todo;
+    toggleTodoStatus: (state, action) => {
+      state.forEach((todo) => {
+        if (todo.id === action.payload) {
+          todo.completed = !todo.completed;
+        }
       });
-    }
-
-    default: {
-      return state;
-    }
-  }
-};
-
-export default todoListReducer;
+    },
+  },
+});
